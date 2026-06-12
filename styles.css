@@ -101,3 +101,19 @@ button:hover{
     border:1px dashed #ccc;
     border-radius:8px;
 }
+
+#problems div{
+    background:white;
+    padding:15px;
+    margin-top:10px;
+    border-radius:8px;
+    border-left:5px solid #2563eb;
+}
+
+#problems h3{
+    margin-bottom:8px;
+}
+
+#problems p{
+    margin:4px 0;
+}
