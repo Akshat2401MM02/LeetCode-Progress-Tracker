@@ -70,7 +70,7 @@ button{
     padding:12px;
     border:none;
     border-radius:8px;
-    background:#2563eb;
+    background:#08754b;
     color:white;
     font-size:16px;
     font-weight:bold;
@@ -79,7 +79,7 @@ button{
 }
 
 button:hover{
-    background:#1d4ed8;
+    background:#01421c;
 }
 
 .problems-section{
