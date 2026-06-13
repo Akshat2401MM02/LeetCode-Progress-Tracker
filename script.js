@@ -1,42 +1,92 @@
 const problemInput = document.querySelector("#problemName");
 const difficultyInput = document.querySelector("#difficulty");
-const topicInput = document.querySelector("#topic");
 const addBtn = document.querySelector("#addBtn");
 const problemsDiv = document.querySelector("#problems");
+const tagButtons = document.querySelectorAll(".tag-btn");
 
-addBtn.addEventListener("click", () => {
+let selectedTags = [];
+let problems = JSON.parse(localStorage.getItem("problems")) || [];
 
-    const problemName = problemInput.value;
-    const difficulty = difficultyInput.value;
-    const topic = topicInput.value;
+function saveProblems() {
+    localStorage.setItem("problems", JSON.stringify(problems));
+}
 
-    if(problemName === "" || difficulty === "" || topic === ""){
-        alert("Please fill all fields");
+function renderProblems() {
+    problemsDiv.innerHTML = "";
+
+    if (problems.length === 0) {
+        problemsDiv.innerHTML = "<p>No problems added yet</p>";
         return;
     }
 
-    if(problemsDiv.textContent === "No problems added yet"){
-        problemsDiv.innerHTML = "";
+    problems.forEach((problem, index) => {
+        const card = document.createElement("div");
+        card.classList.add("problem-card");
+
+        const tags = problem.tags || [];
+
+        const tagsHTML = tags.map(tag => {
+            return `<span class="topic-tag">${tag}</span>`;
+        }).join("");
+
+        card.innerHTML = `
+            <h3>${problem.name}</h3>
+            <p><strong>Difficulty:</strong> ${problem.difficulty}</p>
+            <div class="tags-list">${tagsHTML}</div>
+            <button class="delete-btn" data-index="${index}">Delete</button>
+        `;
+
+        problemsDiv.appendChild(card);
+    });
+}
+
+tagButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const topic = btn.dataset.topic;
+
+        if (selectedTags.includes(topic)) {
+            selectedTags = selectedTags.filter(tag => tag !== topic);
+            btn.classList.remove("active");
+        } else {
+            selectedTags.push(topic);
+            btn.classList.add("active");
+        }
+    });
+});
+
+addBtn.addEventListener("click", () => {
+    const problemName = problemInput.value.trim();
+    const difficulty = difficultyInput.value;
+
+    if (problemName === "" || difficulty === "" || selectedTags.length === 0) {
+        alert("Please enter problem name, difficulty and select at least one topic");
+        return;
     }
 
-    const emptyMessage = document.querySelector("#emptyMessage");
+    const newProblem = {
+        name: problemName,
+        difficulty: difficulty,
+        tags: [...selectedTags]
+    };
 
-    if(emptyMessage){
-        emptyMessage.remove();
-    }
-
-    const problemCard = document.createElement("div");
-
-    problemCard.innerHTML = `
-        <h3>${problemName}</h3>
-        <p><strong>Difficulty:</strong> ${difficulty}</p>
-        <p><strong>Topic:</strong> ${topic}</p>
-        <hr>
-    `;
-
-    problemsDiv.appendChild(problemCard);
+    problems.push(newProblem);
+    saveProblems();
+    renderProblems();
 
     problemInput.value = "";
     difficultyInput.selectedIndex = 0;
-    topicInput.value = "";
+    selectedTags = [];
+
+    tagButtons.forEach(btn => btn.classList.remove("active"));
 });
+
+problemsDiv.addEventListener("click", (event) => {
+    if (event.target.classList.contains("delete-btn")) {
+        const index = event.target.dataset.index;
+        problems.splice(index, 1);
+        saveProblems();
+        renderProblems();
+    }
+});
+
+renderProblems();

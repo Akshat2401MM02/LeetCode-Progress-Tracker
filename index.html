@@ -38,15 +38,23 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Topic</label>
-                <input
-                    type="text"
-                    id="topic"
-                    placeholder="e.g. Arrays"
-                >
-            </div>
+        <div class="form-group">
+            <label>Topics</label>
 
+                <div class="tags-container" id="tagsContainer">
+                    <button type="button" class="tag-btn" data-topic="Array">Array</button>
+                    <button type="button" class="tag-btn" data-topic="Linked List">Linked List</button>
+                    <button type="button" class="tag-btn" data-topic="Tree">Tree</button>
+                    <button type="button" class="tag-btn" data-topic="Stack">Stack</button>
+                    <button type="button" class="tag-btn" data-topic="Queue">Queue</button>
+                    <button type="button" class="tag-btn" data-topic="Hash Table">Hash Table</button>
+                    <button type="button" class="tag-btn" data-topic="Graph">Graph</button>
+                    <button type="button" class="tag-btn" data-topic="DP">DP</button>
+                    <button type="button" class="tag-btn" data-topic="Binary Search">Binary Search</button>
+                    <button type="button" class="tag-btn" data-topic="Two Pointers">Two Pointers</button>
+                </div>
+        </div>
+        
             <button id="addBtn">
                 Add Problem
             </button>
@@ -56,9 +64,7 @@
         <div class="problems-section">
             <h2>Problems Solved</h2>
 
-            <div id="problems">
-                <p id="emptyMessage">No problems added yet</p>
-            </div>
+            <div id="problems"></div>
         </div>
 
     </div>
